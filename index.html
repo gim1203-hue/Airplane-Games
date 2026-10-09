@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101b20">
+  <title>Sky Patrol | Airplane Games</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="arcade">
+    <header class="topbar">
+      <a class="wordmark" href="index.html" aria-label="Sky Patrol home"><span class="wordmark-mark">SP</span><span>SKY PATROL</span></a>
+      <div class="topbar-tag"><span class="live-dot"></span> FLIGHT SECTOR 07</div>
+    </header>
+
+    <section class="game-section" aria-label="Sky Patrol arcade game">
+      <div class="game-heading">
+        <div>
+          <p class="eyebrow">ARCADE INTERCEPTOR</p>
+          <h1>SKY <span>PATROL</span></h1>
+        </div>
+        <p class="mission-copy">Hostile aircraft incoming.<br>Stay sharp. Come home.</p>
+      </div>
+
+      <div class="game-frame">
+        <div class="canvas-wrap">
+          <canvas id="game" width="960" height="540" aria-label="Airplane shooter game. Steer with arrow keys or the on-screen joystick, fire your gun, and launch rockets."></canvas>
+          <div class="flight-hud" aria-live="polite">
+            <button class="hud-icon pause-button" id="pause" type="button" aria-label="Pause game" title="Pause (P)">Ⅱ</button>
+            <button class="hud-icon camera-button" id="camera" type="button" aria-label="Toggle cockpit view" title="Toggle cockpit view">CAM</button>
+            <div class="mission-readout">
+              <span class="mission-icons" aria-hidden="true">✦ ✈ ✦</span>
+              <span>HOSTILES <strong id="enemy-count">07/07</strong></span>
+            </div>
+            <div class="zone-readout"><span id="zone">ICELANDS</span><div class="zone-track"><i id="zone-progress"></i></div></div>
+            <div class="score-readout">SCORE <strong id="score">000000</strong></div>
+            <div class="timer-readout" id="timer">00:00</div>
+            <div class="radar" id="radar" aria-label="Enemy radar">
+              <span class="radar-sweep"></span>
+              <span class="radar-player"></span>
+              <span id="radar-enemies"></span>
+            </div>
+            <div class="hull-readout">HULL <strong id="lives">3</strong></div>
+            <div class="joystick" id="joystick" aria-label="Steering joystick" role="application" tabindex="0"><span class="joystick-knob"></span></div>
+            <button class="hud-icon gun-button" id="gun" type="button" data-control="fire" aria-label="Fire gun" title="Hold to fire">GUN<br><span>●●●</span></button>
+            <button class="hud-icon rocket-button" id="rocket" type="button" aria-label="Launch rocket"><span>ROCKET</span><strong>➤</strong><small>x<span id="missiles">3</span></small></button>
+          </div>
+          <div class="screen" id="screen">
+            <div class="screen-content">
+              <p class="screen-kicker" id="screen-kicker">MISSION 01 / SCRAMBLE</p>
+              <h2 id="screen-title">READY<br>FOR TAKEOFF?</h2>
+              <p class="screen-copy" id="screen-copy">Intercept the fighters. Keep your wings clear and your eyes on the radar.</p>
+              <button class="start-button" id="start" type="button">START MISSION <span aria-hidden="true">↗</span></button>
+              <p class="keyboard-hint">STEER <kbd>←</kbd><kbd>→</kbd> <span class="hint-divider">/</span> GUN <kbd>SPACE</kbd> <span class="hint-divider">/</span> ROCKET <kbd>X</kbd></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="game-footer"><span>STEER THROUGH THE VALLEY. CLEAR EVERY WAVE.</span><span>ARROWS / A-D · SPACE · X · P</span></footer>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

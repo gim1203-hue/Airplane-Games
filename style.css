@@ -1,0 +1,187 @@
+:root {
+  color-scheme: dark;
+  --ink: #f3f0e5;
+  --muted: #8a9a99;
+  --night: #101b20;
+  --panel: #17272c;
+  --line: #304247;
+  --acid: #c8f169;
+  --orange: #ff805c;
+  --mono: "DM Mono", Consolas, monospace;
+  --display: "Barlow Condensed", Impact, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--ink);
+  background-color: var(--night);
+  background-image: radial-gradient(ellipse at 50% 35%, rgba(60, 91, 83, .25), transparent 58%),
+    linear-gradient(rgba(196, 222, 194, .025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196, 222, 194, .025) 1px, transparent 1px);
+  background-size: auto, 36px 36px, 36px 36px;
+  font-family: var(--mono);
+}
+
+button { font: inherit; }
+
+.arcade { max-width: 1120px; margin: 0 auto; padding: 0 36px 34px; }
+
+.topbar {
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(215, 233, 217, .14);
+}
+
+.wordmark { display: inline-flex; gap: 11px; align-items: center; color: var(--ink); text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: 0; }
+.wordmark-mark { display: grid; place-items: center; width: 31px; height: 31px; color: var(--night); background: var(--acid); font-family: var(--display); font-size: 16px; font-weight: 800; }
+.topbar-tag { display: flex; gap: 9px; align-items: center; color: #a8b7ae; font-size: 10px; }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--acid); box-shadow: 0 0 10px rgba(200, 241, 105, .65); }
+
+.game-section { max-width: 960px; margin: 56px auto 0; }
+.game-heading { display: flex; justify-content: space-between; align-items: end; margin-bottom: 23px; }
+.eyebrow { margin: 0 0 8px; color: var(--acid); font-size: 10px; }
+h1 { margin: 0; font-family: var(--display); font-size: clamp(54px, 8vw, 84px); line-height: .78; font-weight: 800; }
+h1 span { color: var(--acid); }
+.mobile-break { display: none; }
+.mission-copy { margin: 0 0 5px; color: #a9b4ae; font-size: 11px; line-height: 1.9; text-align: right; }
+
+.game-frame { overflow: hidden; border: 1px solid #41564e; background: #14282b; box-shadow: 0 22px 70px rgba(0, 0, 0, .28); }
+.game-hud { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 48px; align-items: center; min-height: 67px; padding: 10px 21px; background: var(--panel); border-bottom: 1px solid var(--line); }
+.stat { display: grid; gap: 3px; justify-items: start; }
+.stat-center { justify-items: center; }
+.stat-stage { justify-items: center; }
+.stat-right { justify-items: end; padding-right: 18px; }
+.stat-label { color: #829592; font-size: 9px; }
+.stat strong { color: var(--acid); font-family: var(--display); font-size: 24px; font-weight: 600; line-height: 1; }
+.stat .lives { color: var(--orange); }
+.pause-button { width: 38px; height: 38px; border: 1px solid #53645e; background: transparent; color: var(--ink); cursor: pointer; font-size: 16px; }
+.pause-button:hover, .pause-button:focus-visible { border-color: var(--acid); color: var(--acid); }
+
+.canvas-wrap { position: relative; overflow: hidden; background: #10272e; }
+canvas { display: block; width: 100%; height: auto; aspect-ratio: 8 / 5; }
+.screen { position: absolute; inset: 0; display: grid; place-items: center; padding: 22px; background: rgba(12, 27, 31, .74); text-align: center; transition: opacity .2s ease, visibility .2s ease; }
+.screen.hidden { visibility: hidden; opacity: 0; pointer-events: none; }
+.screen-content { max-width: 430px; animation: arrive .45s both; }
+.screen-kicker { margin: 0 0 12px; color: var(--acid); font-size: 10px; }
+.screen h2 { margin: 0; font-family: var(--display); font-size: clamp(38px, 7vw, 64px); line-height: .9; font-weight: 800; }
+.screen-copy { margin: 14px 0 22px; color: #bac6be; font-size: 11px; line-height: 1.7; }
+.start-button { min-height: 48px; padding: 0 21px; border: 0; background: var(--acid); color: #14201b; cursor: pointer; font-family: var(--display); font-size: 18px; font-weight: 700; transition: background .15s, transform .15s; }
+.start-button span { margin-left: 13px; }
+.start-button:hover { transform: translateY(-2px); background: #ddff91; }
+.start-button:focus-visible, .touch-button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.keyboard-hint { display: flex; justify-content: center; align-items: center; gap: 5px; margin: 20px 0 0; color: #a8b6ae; font-size: 9px; }
+kbd { display: inline-grid; place-items: center; min-width: 19px; height: 20px; border: 1px solid #65756e; color: var(--ink); font: inherit; }
+.hint-divider { padding: 0 5px; color: #758680; }
+
+.touch-controls { display: none; gap: 10px; margin-top: 13px; }
+.touch-button { min-width: 58px; height: 49px; border: 1px solid #52635d; background: #1b2b30; color: var(--ink); cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; }
+.touch-button:active, .touch-button.is-active { background: #334a48; color: var(--acid); }
+.fire-button { min-width: 102px; margin-left: auto; border-color: #a65a49; color: #ff9b7d; font-size: 11px; }
+.fire-button span { margin-left: 5px; }
+.game-footer { display: flex; justify-content: space-between; gap: 10px; padding-top: 13px; color: #768783; font-size: 9px; }
+
+@keyframes arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 640px) {
+  .arcade { padding: 0 15px 24px; }
+  .topbar { height: 60px; }
+  .topbar-tag { font-size: 8px; }
+  .game-section { margin-top: 37px; }
+  .game-heading { align-items: end; margin-bottom: 18px; }
+  h1 { font-size: clamp(52px, 15vw, 74px); }
+  .mobile-break { display: initial; }
+  .mission-copy { font-size: 9px; }
+  .game-hud { min-height: 57px; padding: 8px 9px; grid-template-columns: 1fr 1fr 1fr 1fr 34px; }
+  .stat-label { font-size: 8px; }
+  .stat strong { font-size: 21px; }
+  .stat-right { padding-right: 5px; }
+  .pause-button { width: 34px; height: 34px; }
+  .touch-controls { display: flex; }
+  .screen-content { max-width: 310px; }
+  .screen h2 { font-size: clamp(36px, 11vw, 54px); }
+  .screen-copy { margin: 10px 0 15px; font-size: 9px; }
+  .start-button { min-height: 42px; font-size: 16px; }
+  .keyboard-hint { flex-wrap: wrap; gap: 4px; margin-top: 13px; font-size: 8px; }
+  kbd { min-width: 17px; height: 18px; }
+  .game-footer { font-size: 7px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+.game-frame { border-color: rgba(227, 242, 255, .62); background: #70b8dc; box-shadow: 0 22px 70px rgba(0, 0, 0, .35); }
+.canvas-wrap { background: #7dc6ec; isolation: isolate; }
+canvas { position: relative; z-index: 0; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+.flight-hud { position: absolute; z-index: 2; inset: 0; color: #fff; pointer-events: none; text-shadow: 0 1px 5px rgba(10, 30, 55, .6); }
+.hud-icon { position: absolute; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, .8); background: rgba(24, 51, 88, .58); color: #fff; text-shadow: inherit; cursor: pointer; pointer-events: auto; }
+.hud-icon:hover, .hud-icon:focus-visible { background: rgba(36, 75, 121, .86); outline: 2px solid #fff; outline-offset: 2px; }
+.pause-button { top: 3%; left: 2%; width: 44px; height: 42px; border: 0; background: transparent; font-size: 25px; }
+.camera-button { top: 17%; left: 2%; width: 54px; height: 47px; border-radius: 7px; font-size: 10px; font-weight: 700; }
+.mission-readout { position: absolute; top: 2%; left: 19%; display: grid; gap: 1px; min-width: 117px; padding: 5px 10px; border-radius: 5px; background: rgba(38, 64, 102, .55); text-align: center; font-size: 9px; pointer-events: none; }
+.mission-icons { color: #cce6ff; font-size: 15px; line-height: 1; }
+.mission-readout strong { margin-left: 4px; font-size: 9px; }
+.zone-readout { position: absolute; top: 3%; left: 52%; width: 20%; min-width: 108px; color: white; text-align: center; font-size: 10px; pointer-events: none; }
+.zone-track { height: 10px; margin-top: 3px; border: 1px solid rgba(255, 255, 255, .8); background: rgba(42, 50, 80, .6); }
+.zone-track i { display: block; width: 4%; height: 100%; background: #f0f2f5; transition: width .25s; }
+.score-readout { position: absolute; top: 12%; left: 19%; color: rgba(255, 255, 255, .93); font-size: 8px; pointer-events: none; }
+.score-readout strong { margin-left: 5px; font-size: 10px; }
+.timer-readout { position: absolute; top: 31%; left: 0; padding: 7px 13px 7px 9px; border-radius: 0 5px 5px 0; background: rgba(35, 58, 88, .59); font-size: 12px; pointer-events: none; }
+.radar { position: absolute; top: 4%; right: 3%; width: clamp(56px, 11%, 96px); aspect-ratio: 1; overflow: hidden; border: 1px solid rgba(255, 255, 255, .78); border-radius: 50%; background: rgba(232, 238, 250, .68); box-shadow: inset 0 0 0 1px rgba(51, 85, 142, .24); }
+.radar::before, .radar::after { position: absolute; content: ""; inset: 25%; border: 1px solid rgba(59, 86, 137, .42); border-radius: 50%; }
+.radar::after { inset: 49% 0 auto; border: 0; border-top: 1px solid rgba(59, 86, 137, .42); border-radius: 0; }
+.radar-sweep { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, transparent 0 72%, rgba(76, 111, 177, .42)); animation: radar-turn 4s linear infinite; }
+.radar-player { position: absolute; top: 47%; left: 47%; width: 6px; height: 6px; border-radius: 50%; background: #df5756; }
+.radar-dot { position: absolute; z-index: 1; width: 4px; height: 4px; border-radius: 50%; background: #e44748; box-shadow: 0 0 4px #e44748; }
+.hull-readout { position: absolute; top: 23%; right: 5%; padding: 4px 8px; border-radius: 3px; background: rgba(35, 58, 88, .56); font-size: 8px; pointer-events: none; }
+.hull-readout strong { margin-left: 4px; color: #fff; font-size: 12px; }
+.joystick { position: absolute; bottom: 11%; left: 10%; display: grid; place-items: center; width: clamp(62px, 13%, 112px); aspect-ratio: 1; border: 5px solid rgba(225, 239, 255, .48); border-radius: 50%; background: rgba(47, 85, 123, .18); box-shadow: inset 0 0 0 2px rgba(34, 67, 111, .22); pointer-events: auto; touch-action: none; cursor: grab; }
+.joystick:active { cursor: grabbing; }
+.joystick-knob { width: 34%; aspect-ratio: 1; border: 2px solid rgba(241, 247, 255, .72); border-radius: 50%; background: rgba(224, 237, 255, .43); box-shadow: 0 2px 8px rgba(16, 33, 67, .35); transform: translateX(var(--stick-x, 0px)); }
+.gun-button { right: 14%; bottom: 26%; width: clamp(58px, 11%, 94px); aspect-ratio: 1; border-radius: 50%; font-size: 10px; }
+.gun-button span { color: #d7e7ff; font-size: 15px; }
+.rocket-button { right: 3%; bottom: 27%; width: clamp(48px, 8%, 76px); height: clamp(60px, 12%, 96px); gap: 3px; border-radius: 5px; font-size: 8px; }
+.rocket-button strong { font-size: 24px; transform: rotate(-35deg); }
+.rocket-button small { position: absolute; right: 3px; bottom: -7px; padding: 2px 5px; background: #e64f52; font-size: 9px; }
+.rocket-button:disabled { opacity: .45; cursor: not-allowed; }
+.screen { z-index: 3; background: rgba(9, 20, 40, .64); backdrop-filter: blur(2px); }
+.screen-content { padding: 16px 24px; background: rgba(14, 29, 52, .5); border: 1px solid rgba(235, 242, 255, .28); }
+.game-footer { font-size: 8px; }
+
+@keyframes radar-turn { to { transform: rotate(360deg); } }
+
+@media (max-width: 640px) {
+  .game-section { margin-top: 26px; }
+  .game-heading { margin-bottom: 13px; }
+  h1 { font-size: clamp(44px, 11vw, 66px); }
+  .mission-copy { font-size: 8px; }
+  .mission-readout { left: 15%; min-width: 92px; padding: 4px 6px; font-size: 7px; }
+  .mission-icons { font-size: 12px; }
+  .mission-readout strong { font-size: 8px; }
+  .zone-readout { left: 47%; width: 26%; min-width: 74px; font-size: 8px; }
+  .zone-track { height: 7px; }
+  .score-readout { left: 15%; top: 13%; font-size: 7px; }
+  .score-readout strong { font-size: 8px; }
+  .pause-button { width: 30px; height: 31px; font-size: 20px; }
+  .camera-button { top: 19%; width: 39px; height: 34px; font-size: 8px; }
+  .timer-readout { top: 34%; padding: 5px 8px; font-size: 9px; }
+  .hull-readout { top: 26%; right: 4%; padding: 3px 5px; font-size: 7px; }
+  .radar { width: 14%; min-width: 43px; }
+  .joystick { bottom: 9%; left: 7%; width: 18%; min-width: 52px; border-width: 3px; }
+  .gun-button { right: 15%; bottom: 22%; width: 14%; min-width: 49px; font-size: 8px; }
+  .gun-button span { font-size: 11px; }
+  .rocket-button { right: 3%; bottom: 23%; width: 12%; min-width: 40px; height: 24%; min-height: 48px; font-size: 6px; }
+  .rocket-button strong { font-size: 18px; }
+  .rocket-button small { font-size: 7px; }
+  .screen-content { max-width: min(310px, 88vw); padding: 12px 17px; }
+  .screen h2 { font-size: clamp(32px, 9vw, 48px); }
+  .screen-copy { font-size: 9px; }
+  .keyboard-hint { margin-top: 10px; font-size: 7px; }
+  .game-footer { font-size: 6px; }
+}
