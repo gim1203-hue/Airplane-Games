@@ -118,12 +118,22 @@ kbd { display: inline-grid; place-items: center; min-width: 19px; height: 20px; 
 
 .game-frame { border-color: rgba(227, 242, 255, .62); background: #70b8dc; box-shadow: 0 22px 70px rgba(0, 0, 0, .35); }
 .canvas-wrap { background: #7dc6ec; isolation: isolate; }
-canvas { position: relative; z-index: 0; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+#game { position: relative; z-index: 0; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
+#game { touch-action: none; }
+.flight-renderer { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
 .flight-hud { position: absolute; z-index: 2; inset: 0; color: #fff; pointer-events: none; text-shadow: 0 1px 5px rgba(10, 30, 55, .6); }
 .hud-icon { position: absolute; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, .8); background: rgba(24, 51, 88, .58); color: #fff; text-shadow: inherit; cursor: pointer; pointer-events: auto; }
 .hud-icon:hover, .hud-icon:focus-visible { background: rgba(36, 75, 121, .86); outline: 2px solid #fff; outline-offset: 2px; }
 .pause-button { top: 3%; left: 2%; width: 44px; height: 42px; border: 0; background: transparent; font-size: 25px; }
 .camera-button { top: 17%; left: 2%; width: 54px; height: 47px; border-radius: 7px; font-size: 10px; font-weight: 700; }
+.restart-button { top: 17%; left: calc(2% + 61px); width: 38px; height: 38px; border-radius: 6px; font-size: 23px; }
+.fullscreen-button { top: 3%; right: 16%; width: 38px; height: 34px; border-radius: 5px; font-size: 20px; }
+.exit-flight-button { top: 17%; left: calc(2% + 150px); width: 48px; height: 34px; border-radius: 5px; font-size: 9px; }
+.aim-reticle { position: absolute; top: 43%; left: 50%; width: 42px; height: 42px; border: 1px solid rgba(206, 255, 245, .92); border-radius: 50%; color: #c5fff0; transform: translate(-50%, -50%); pointer-events: none; filter: drop-shadow(0 0 4px rgba(39, 255, 224, .76)); }
+.aim-reticle::before, .aim-reticle::after { position: absolute; content: ""; background: currentColor; }
+.aim-reticle::before { top: 50%; left: 5px; right: 5px; height: 1px; }
+.aim-reticle::after { top: 5px; bottom: 5px; left: 50%; width: 1px; }
+.aim-reticle.locked { border-color: #ff3028; color: #ff3028; filter: drop-shadow(0 0 6px #ff241c); }
 .mission-readout { position: absolute; top: 2%; left: 19%; display: grid; gap: 1px; min-width: 117px; padding: 5px 10px; border-radius: 5px; background: rgba(38, 64, 102, .55); text-align: center; font-size: 9px; pointer-events: none; }
 .mission-icons { color: #cce6ff; font-size: 15px; line-height: 1; }
 .mission-readout strong { margin-left: 4px; font-size: 9px; }
@@ -132,6 +142,12 @@ canvas { position: relative; z-index: 0; width: 100%; height: auto; aspect-ratio
 .zone-track i { display: block; width: 4%; height: 100%; background: #f0f2f5; transition: width .25s; }
 .score-readout { position: absolute; top: 12%; left: 19%; color: rgba(255, 255, 255, .93); font-size: 8px; pointer-events: none; }
 .score-readout strong { margin-left: 5px; font-size: 10px; }
+.best-label { display: block; margin-top: 4px; color: rgba(255, 255, 255, .72); }
+.best-label strong { font-size: 9px; }
+.boss-health { position: absolute; top: 15%; left: 50%; width: min(340px, 35vw); transform: translateX(-50%); text-align: center; font-size: 9px; pointer-events: none; }
+.boss-health[hidden] { display: none; }
+.boss-health > div { height: 10px; margin-top: 4px; border: 1px solid rgba(255, 255, 255, .85); background: rgba(35, 26, 39, .7); }
+.boss-health i { display: block; width: 100%; height: 100%; background: linear-gradient(90deg, #fa765b, #ffcf72); transition: width .12s linear; }
 .timer-readout { position: absolute; top: 31%; left: 0; padding: 7px 13px 7px 9px; border-radius: 0 5px 5px 0; background: rgba(35, 58, 88, .59); font-size: 12px; pointer-events: none; }
 .radar { position: absolute; top: 4%; right: 3%; width: clamp(56px, 11%, 96px); aspect-ratio: 1; overflow: hidden; border: 1px solid rgba(255, 255, 255, .78); border-radius: 50%; background: rgba(232, 238, 250, .68); box-shadow: inset 0 0 0 1px rgba(51, 85, 142, .24); }
 .radar::before, .radar::after { position: absolute; content: ""; inset: 25%; border: 1px solid rgba(59, 86, 137, .42); border-radius: 50%; }
@@ -139,8 +155,11 @@ canvas { position: relative; z-index: 0; width: 100%; height: auto; aspect-ratio
 .radar-sweep { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, transparent 0 72%, rgba(76, 111, 177, .42)); animation: radar-turn 4s linear infinite; }
 .radar-player { position: absolute; top: 47%; left: 47%; width: 6px; height: 6px; border-radius: 50%; background: #df5756; }
 .radar-dot { position: absolute; z-index: 1; width: 4px; height: 4px; border-radius: 50%; background: #e44748; box-shadow: 0 0 4px #e44748; }
+.radar-dot.radar-locked { width: 8px; height: 8px; background: #ff3028; box-shadow: 0 0 10px #ff241c; }
 .hull-readout { position: absolute; top: 23%; right: 5%; padding: 4px 8px; border-radius: 3px; background: rgba(35, 58, 88, .56); font-size: 8px; pointer-events: none; }
 .hull-readout strong { margin-left: 4px; color: #fff; font-size: 12px; }
+.sound-button { top: 17%; right: 3%; min-width: 54px; height: 25px; border-radius: 4px; font-size: 8px; }
+.sound-button[aria-pressed="true"] { color: #e4f3a0; }
 .joystick { position: absolute; bottom: 11%; left: 10%; display: grid; place-items: center; width: clamp(62px, 13%, 112px); aspect-ratio: 1; border: 5px solid rgba(225, 239, 255, .48); border-radius: 50%; background: rgba(47, 85, 123, .18); box-shadow: inset 0 0 0 2px rgba(34, 67, 111, .22); pointer-events: auto; touch-action: none; cursor: grab; }
 .joystick:active { cursor: grabbing; }
 .joystick-knob { width: 34%; aspect-ratio: 1; border: 2px solid rgba(241, 247, 255, .72); border-radius: 50%; background: rgba(224, 237, 255, .43); box-shadow: 0 2px 8px rgba(16, 33, 67, .35); transform: translateX(var(--stick-x, 0px)); }
@@ -151,8 +170,23 @@ canvas { position: relative; z-index: 0; width: 100%; height: auto; aspect-ratio
 .rocket-button small { position: absolute; right: 3px; bottom: -7px; padding: 2px 5px; background: #e64f52; font-size: 9px; }
 .rocket-button:disabled { opacity: .45; cursor: not-allowed; }
 .screen { z-index: 3; background: rgba(9, 20, 40, .64); backdrop-filter: blur(2px); }
+.screen { pointer-events: none; }
+.screen-content { pointer-events: auto; }
 .screen-content { padding: 16px 24px; background: rgba(14, 29, 52, .5); border: 1px solid rgba(235, 242, 255, .28); }
 .game-footer { font-size: 8px; }
+.screen.main-menu .screen-content { width: min(520px, 92%); max-width: none; padding: 22px 26px; text-align: left; }
+.screen.main-menu .screen h2 { font-size: clamp(44px, 6vw, 66px); }
+.screen.main-menu .screen-copy { max-width: 44ch; }
+.home-options { display: none; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 15px; }
+.screen.main-menu .home-options { display: flex; }
+.classic-link { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 42px; padding: 0 13px; border: 1px solid rgba(235, 242, 255, .42); color: var(--ink); font-size: 9px; text-decoration: none; }
+.classic-link:hover, .classic-link:focus-visible { border-color: var(--acid); color: var(--acid); }
+.quality-control { display: grid; gap: 4px; color: #cad7d1; font-size: 8px; }
+.quality-control select { min-height: 33px; padding: 0 24px 0 8px; border: 1px solid rgba(235, 242, 255, .38); border-radius: 0; background: #192d39; color: var(--ink); font: inherit; }
+.classic-page .game-frame { box-shadow: 0 22px 70px rgba(0, 0, 0, .32); }
+.back-link { color: #a8b7ae; text-decoration: none; }
+.game-footer a { color: #c6d4cc; text-decoration: none; }
+.game-footer a:hover, .game-footer a:focus-visible { color: var(--acid); }
 
 @keyframes radar-turn { to { transform: rotate(360deg); } }
 
@@ -170,6 +204,8 @@ canvas { position: relative; z-index: 0; width: 100%; height: auto; aspect-ratio
   .score-readout strong { font-size: 8px; }
   .pause-button { width: 30px; height: 31px; font-size: 20px; }
   .camera-button { top: 19%; width: 39px; height: 34px; font-size: 8px; }
+  .restart-button { top: 19%; left: calc(7% + 44px); width: 30px; height: 30px; font-size: 18px; }
+  .sound-button { top: 19%; right: 20%; min-width: 44px; height: 22px; font-size: 6px; }
   .timer-readout { top: 34%; padding: 5px 8px; font-size: 9px; }
   .hull-readout { top: 26%; right: 4%; padding: 3px 5px; font-size: 7px; }
   .radar { width: 14%; min-width: 43px; }
@@ -179,9 +215,43 @@ canvas { position: relative; z-index: 0; width: 100%; height: auto; aspect-ratio
   .rocket-button { right: 3%; bottom: 23%; width: 12%; min-width: 40px; height: 24%; min-height: 48px; font-size: 6px; }
   .rocket-button strong { font-size: 18px; }
   .rocket-button small { font-size: 7px; }
+  #game { aspect-ratio: 3 / 5; }
   .screen-content { max-width: min(310px, 88vw); padding: 12px 17px; }
+  .screen.main-menu .screen-content { width: min(390px, 92%); padding: 14px 16px; }
+  .screen.main-menu .screen h2 { font-size: clamp(36px, 10vw, 50px); }
+  .home-options { align-items: stretch; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+  .classic-link { min-height: 34px; }
+  .quality-control { grid-template-columns: 1fr auto; align-items: center; }
+  .quality-control select { min-height: 30px; }
   .screen h2 { font-size: clamp(32px, 9vw, 48px); }
   .screen-copy { font-size: 9px; }
   .keyboard-hint { margin-top: 10px; font-size: 7px; }
   .game-footer { font-size: 6px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radar-sweep { animation: none; }
+  .zone-track i { transition: none; }
+}
+
+body.flight-mode { overflow: hidden; }
+body.flight-mode .arcade { width: 100%; max-width: none; height: 100vh; height: 100dvh; padding: 0; }
+body.flight-mode .topbar,
+body.flight-mode .game-heading,
+body.flight-mode .game-footer { display: none; }
+body.flight-mode .game-section { position: fixed; z-index: 20; inset: 0; width: 100vw; max-width: none; height: 100vh; height: 100dvh; margin: 0; }
+body.flight-mode .game-frame,
+body.flight-mode .canvas-wrap { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; box-shadow: none; }
+body.flight-mode #game { width: 100%; height: 100%; aspect-ratio: auto; }
+body.flight-mode .flight-hud { position: fixed; }
+body.flight-mode .screen { position: fixed; }
+body.flight-mode .mission-readout { left: 9%; }
+body.flight-mode .score-readout { left: 9%; }
+
+@media (max-width: 640px) {
+  .fullscreen-button { top: 3%; right: 25%; width: 30px; height: 29px; font-size: 17px; }
+  .exit-flight-button { top: 19%; left: calc(7% + 114px); width: 42px; height: 30px; font-size: 7px; }
+  .boss-health { top: 17%; width: 42vw; font-size: 7px; }
+  body.flight-mode .mission-readout { left: 15%; }
+  body.flight-mode .score-readout { left: 15%; }
 }

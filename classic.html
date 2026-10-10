@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101b20">
+  <title>Classic Arcade | Sky Patrol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="classic-page">
+  <main class="arcade">
+    <header class="topbar">
+      <a class="wordmark" href="index.html" aria-label="Return to the Sky Patrol flight deck"><span class="wordmark-mark">SP</span><span>SKY PATROL</span></a>
+      <a class="topbar-tag back-link" href="index.html">FLIGHT DECK <span aria-hidden="true">↗</span></a>
+    </header>
+    <section class="game-section" aria-label="Classic Sky Patrol arcade game">
+      <div class="game-heading">
+        <div><p class="eyebrow">LEGACY ARCADE / 2D</p><h1>CLASSIC <span>INTERCEPTOR</span></h1></div>
+        <p class="mission-copy">The original vector-flight challenge.<br>Same pilot. New airfield.</p>
+      </div>
+      <div class="game-frame">
+        <div class="canvas-wrap">
+          <canvas id="game" width="960" height="540" aria-label="Classic airplane arcade game. Steer with the arrow keys or joystick; aim with the pointer; fire with Space."></canvas>
+          <div class="flight-hud" aria-live="polite">
+            <button class="hud-icon pause-button" id="pause" type="button" aria-label="Pause game" title="Pause (P)">Ⅱ</button>
+            <button class="hud-icon camera-button" id="camera" type="button" aria-label="Toggle vector cockpit view" aria-pressed="false" title="Toggle cockpit view">CAM</button>
+            <button class="hud-icon restart-button" id="restart" type="button" aria-label="Restart mission" title="Restart mission">↻</button>
+            <div class="mission-readout"><span class="mission-icons" aria-hidden="true">✦ ✈ ✦</span><span>STAGE <strong id="stage">01</strong></span><span>HOSTILES <strong id="enemy-count">00/07</strong></span></div>
+            <div class="zone-readout"><span id="zone">ICELANDS</span><div class="zone-track"><i id="zone-progress"></i></div></div>
+            <div class="score-readout">SCORE <strong id="score">000000</strong><span class="best-label">BEST <strong id="best">000000</strong></span></div>
+            <div class="timer-readout" id="timer">00:00</div>
+            <div class="radar" id="radar" aria-label="Enemy radar"><span class="radar-sweep"></span><span class="radar-player"></span><span id="radar-enemies"></span></div>
+            <button class="hud-icon sound-button" id="sound" type="button" aria-label="Turn sound on" aria-pressed="false" title="Toggle sound">SFX OFF</button>
+            <div class="hull-readout">HULL <strong id="lives">3</strong></div>
+            <div class="joystick" id="joystick" aria-label="Steering joystick" role="application" tabindex="0"><span class="joystick-knob"></span></div>
+            <button class="hud-icon gun-button" id="gun" type="button" aria-label="Fire gun" title="Hold to fire">GUN<br><span>●●●</span></button>
+            <button class="hud-icon rocket-button" id="rocket" type="button" aria-label="Launch rocket"><span>ROCKET</span><strong>➤</strong><small>x<span id="missiles">3</span></small></button>
+          </div>
+          <div class="screen" id="screen">
+            <div class="screen-content">
+              <p class="screen-kicker" id="screen-kicker">CLASSIC ARCADE / SCRAMBLE</p>
+              <h2 id="screen-title">VECTOR<br>INTERCEPTOR</h2>
+              <p class="screen-copy" id="screen-copy">The classic 2D air-combat game is still here. Clear every wave.</p>
+              <button class="start-button" id="start" type="button">START CLASSIC GAME <span aria-hidden="true">↗</span></button>
+              <p class="keyboard-hint">STEER <kbd>ARROWS</kbd>/<kbd>WASD</kbd> <span class="hint-divider">/</span> FIRE <kbd>SPACE</kbd> <span class="hint-divider">/</span> PAUSE <kbd>P</kbd></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="game-footer"><span>CLASSIC 2D FLIGHT · HIGH SCORE SAVED ON THIS DEVICE</span><span><a href="index.html">BACK TO 3D AIRFIELD</a></span></footer>
+    </section>
+  </main>
+  <script type="module" src="flight-game.js"></script>
+</body>
+</html>

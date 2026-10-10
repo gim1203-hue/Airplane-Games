@@ -28,10 +28,14 @@
 
       <div class="game-frame">
         <div class="canvas-wrap">
-          <canvas id="game" width="960" height="540" aria-label="Airplane shooter game. Steer with arrow keys or the on-screen joystick, fire your gun, and launch rockets."></canvas>
+          <div id="game" role="img" aria-label="First-person 3D airplane game. Aim with the pointer, touch, or I J K L. Steer with arrows or the joystick, fire with Space, launch rockets with X."></div>
           <div class="flight-hud" aria-live="polite">
             <button class="hud-icon pause-button" id="pause" type="button" aria-label="Pause game" title="Pause (P)">Ⅱ</button>
-            <button class="hud-icon camera-button" id="camera" type="button" aria-label="Toggle cockpit view" title="Toggle cockpit view">CAM</button>
+            <button class="hud-icon camera-button" id="camera" type="button" aria-label="Toggle cockpit view" aria-pressed="false" title="Toggle cockpit view">CAM</button>
+            <button class="hud-icon restart-button" id="restart" type="button" aria-label="Restart mission" title="Restart mission">↻</button>
+            <button class="hud-icon fullscreen-button" id="fullscreen" type="button" aria-label="Enter fullscreen" title="Toggle fullscreen">⛶</button>
+            <button class="hud-icon exit-flight-button" id="exit-flight" type="button" aria-label="Exit flight" title="Exit flight">EXIT</button>
+            <div class="aim-reticle" id="aim-reticle" aria-hidden="true"></div>
             <div class="mission-readout">
               <span class="mission-icons" aria-hidden="true">✦ ✈ ✦</span>
               <span>STAGE <strong id="stage">01</strong></span>
@@ -39,32 +43,38 @@
             </div>
             <div class="zone-readout"><span id="zone">ICELANDS</span><div class="zone-track"><i id="zone-progress"></i></div></div>
             <div class="score-readout">SCORE <strong id="score">000000</strong><span class="best-label">BEST <strong id="best">000000</strong></span></div>
+            <div class="boss-health" id="boss-health" hidden><span>UNLIMITED WAR MACHINE</span><div><i id="boss-health-fill"></i></div></div>
             <div class="timer-readout" id="timer">00:00</div>
             <div class="radar" id="radar" aria-label="Enemy radar">
               <span class="radar-sweep"></span>
               <span class="radar-player"></span>
               <span id="radar-enemies"></span>
             </div>
+            <button class="hud-icon sound-button" id="sound" type="button" aria-label="Turn sound on" aria-pressed="false" title="Toggle sound">SFX OFF</button>
             <div class="hull-readout">HULL <strong id="lives">3</strong></div>
             <div class="joystick" id="joystick" aria-label="Steering joystick" role="application" tabindex="0"><span class="joystick-knob"></span></div>
             <button class="hud-icon gun-button" id="gun" type="button" data-control="fire" aria-label="Fire gun" title="Hold to fire">GUN<br><span>●●●</span></button>
             <button class="hud-icon rocket-button" id="rocket" type="button" aria-label="Launch rocket"><span>ROCKET</span><strong>➤</strong><small>x<span id="missiles">3</span></small></button>
           </div>
-          <div class="screen" id="screen">
+          <div class="screen main-menu" id="screen">
             <div class="screen-content">
-              <p class="screen-kicker" id="screen-kicker">MISSION 01 / SCRAMBLE</p>
-              <h2 id="screen-title">READY<br>FOR TAKEOFF?</h2>
-              <p class="screen-copy" id="screen-copy">Intercept the fighters. Keep your wings clear and your eyes on the radar.</p>
-              <button class="start-button" id="start" type="button">START MISSION <span aria-hidden="true">↗</span></button>
-              <p class="keyboard-hint">STEER <kbd>←</kbd><kbd>→</kbd> <span class="hint-divider">/</span> GUN <kbd>SPACE</kbd> <span class="hint-divider">/</span> ROCKET <kbd>X</kbd></p>
+              <p class="screen-kicker" id="screen-kicker">SKY PATROL AIRFIELD / FLIGHT DECK</p>
+              <h2 id="screen-title">PILOT YOUR<br>OWN SORTIE</h2>
+              <p class="screen-copy" id="screen-copy">Take the 3D cockpit, clear three levels, then face the Unlimited War Machine.</p>
+              <div class="home-options" id="home-options">
+                <a class="classic-link" href="classic.html"><span>CLASSIC ARCADE</span><span aria-hidden="true">↗</span></a>
+                <label class="quality-control" for="graphics-quality"><span>3D GRAPHICS</span><select id="graphics-quality" aria-label="3D graphics quality"><option value="low">Low</option><option value="balanced">Balanced</option><option value="high">High</option></select></label>
+              </div>
+              <button class="start-button" id="start" type="button">START 3D CAMPAIGN <span aria-hidden="true">↗</span></button>
+              <p class="keyboard-hint">STEER <kbd>ARROWS</kbd>/<kbd>WASD</kbd> <span class="hint-divider">/</span> AIM <kbd>POINTER</kbd>/<kbd>IJKL</kbd> <span class="hint-divider">/</span> FIRE <kbd>SPACE</kbd></p>
             </div>
           </div>
         </div>
       </div>
 
-      <footer class="game-footer"><span>STEER THROUGH THE VALLEY. CLEAR EVERY WAVE.</span><span>ARROWS / A-D · SPACE · X · P</span></footer>
+      <footer class="game-footer"><span>STEER WITH ARROWS OR JOYSTICK · AIM WITH POINTER OR TOUCH</span><span>SPACE · X · P · F</span></footer>
     </section>
   </main>
-  <script src="script.js"></script>
+  <script type="module" src="flight-game-3d.js"></script>
 </body>
 </html>
