@@ -209,10 +209,11 @@ kbd { display: inline-grid; place-items: center; min-width: 19px; height: 20px; 
   .timer-readout { top: 34%; padding: 5px 8px; font-size: 9px; }
   .hull-readout { top: 26%; right: 4%; padding: 3px 5px; font-size: 7px; }
   .radar { width: 14%; min-width: 43px; }
-  .joystick { bottom: 9%; left: 7%; width: 18%; min-width: 52px; border-width: 3px; }
-  .gun-button { right: 15%; bottom: 22%; width: 14%; min-width: 49px; font-size: 8px; }
+  .joystick { bottom: 7%; left: 5%; width: 20%; min-width: 62px; border-width: 3px; }
+  .joystick.is-active { background: rgba(47, 85, 123, .42); }
+  .gun-button { right: 17%; bottom: 14%; width: 18%; min-width: 60px; font-size: 8px; }
   .gun-button span { font-size: 11px; }
-  .rocket-button { right: 3%; bottom: 23%; width: 12%; min-width: 40px; height: 24%; min-height: 48px; font-size: 6px; }
+  .rocket-button { right: 3%; bottom: 15%; width: 14%; min-width: 48px; height: 28%; min-height: 56px; font-size: 7px; }
   .rocket-button strong { font-size: 18px; }
   .rocket-button small { font-size: 7px; }
   #game { aspect-ratio: 3 / 5; }

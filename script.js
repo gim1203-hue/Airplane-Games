@@ -10,6 +10,10 @@ const screenTitle = document.getElementById("screen-title");
 const screenCopy = document.getElementById("screen-copy");
 const startButton = document.getElementById("start");
 const pauseButton = document.getElementById("pause");
+const joystick = document.getElementById("joystick");
+const joystickKnob = joystick.querySelector(".joystick-knob");
+const rocketButton = document.getElementById("rocket");
+const missilesEl = document.getElementById("missiles");
 
 const width = canvas.width;
 const height = canvas.height;
@@ -44,6 +48,7 @@ let shotTimer;
 let elapsed;
 let lastFrame = 0;
 let gameState = "ready";
+let missiles;
 
 bestEl.textContent = formatScore(best);
 buildGalaxy();
@@ -60,11 +65,14 @@ function resetGame() {
   particles = [];
   score = 0;
   lives = 3;
+  missiles = 3;
   stage = 1;
   elapsed = 0;
   scoreEl.textContent = formatScore(score);
   livesEl.textContent = String(lives);
   livesEl.classList.remove("lives-empty");
+  missilesEl.textContent = String(missiles);
+  rocketButton.disabled = false;
   pauseButton.textContent = "Ⅱ";
   pauseButton.setAttribute("aria-label", "Pause game");
   beginStage();
@@ -151,6 +159,14 @@ function spawnEnemy() {
 function fireShot() {
   shots.push({ x: player.x, y: player.y - 24, speed: 440 });
   particles.push({ x: player.x, y: player.y - 28, vx: 0, vy: -35, life: 0.12, color: "#c8f169", size: 4 });
+}
+
+function fireRocket() {
+  if (gameState !== "playing" || missiles <= 0) return;
+  missiles -= 1;
+  missilesEl.textContent = String(missiles);
+  rocketButton.disabled = missiles === 0;
+  shots.push({ x: player.x, y: player.y - 24, speed: 300, damage: 2, rocket: true });
 }
 
 function burst(x, y, color, amount = 10) {
@@ -243,7 +259,7 @@ function update(delta) {
     for (const enemy of enemies) {
       if (Math.hypot(shot.x - enemy.x, shot.y - enemy.y) < enemy.radius + 5) {
         shot.hit = true;
-        enemy.hp -= 1;
+        enemy.hp -= shot.damage || 1;
         if (enemy.hp <= 0) {
           enemy.destroyed = true;
           score += enemy.tough ? 200 : 100;
@@ -401,10 +417,10 @@ function render(delta) {
   }
 
   for (const shot of shots) {
-    ctx.fillStyle = "#d8ff8a";
-    ctx.shadowColor = "#c8f169";
-    ctx.shadowBlur = 12;
-    ctx.fillRect(shot.x - 2, shot.y - 8, 4, 16);
+    ctx.fillStyle = shot.rocket ? "#ffb75e" : "#d8ff8a";
+    ctx.shadowColor = shot.rocket ? "#ff805c" : "#c8f169";
+    ctx.shadowBlur = shot.rocket ? 16 : 12;
+    ctx.fillRect(shot.x - (shot.rocket ? 4 : 2), shot.y - (shot.rocket ? 12 : 8), shot.rocket ? 8 : 4, shot.rocket ? 24 : 16);
   }
   ctx.shadowBlur = 0;
   for (const shot of enemyShots) {
@@ -447,10 +463,50 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("keyup", (event) => keys.delete(event.key));
+document.addEventListener("keydown", (event) => {
+  if (event.key.toLowerCase() === "x" && !event.repeat) fireRocket();
+});
 window.addEventListener("blur", () => {
   keys.clear();
   controls.clear();
+  joystick.style.setProperty("--stick-x", "0px");
+  joystick.classList.remove("is-active");
 });
+
+let joystickPointer = null;
+function moveJoystick(event) {
+  const bounds = joystick.getBoundingClientRect();
+  const center = bounds.left + bounds.width / 2;
+  const offset = Math.max(-bounds.width * 0.35, Math.min(bounds.width * 0.35, event.clientX - center));
+  const direction = offset / (bounds.width * 0.35);
+  joystick.style.setProperty("--stick-x", `${offset}px`);
+  controls.delete("left");
+  controls.delete("right");
+  if (direction < -0.2) controls.add("left");
+  if (direction > 0.2) controls.add("right");
+}
+function releaseJoystick(event) {
+  if (joystickPointer !== event.pointerId) return;
+  joystickPointer = null;
+  controls.delete("left");
+  controls.delete("right");
+  joystick.style.setProperty("--stick-x", "0px");
+  joystick.classList.remove("is-active");
+}
+joystick.addEventListener("pointerdown", (event) => {
+  event.preventDefault();
+  joystickPointer = event.pointerId;
+  joystick.setPointerCapture(event.pointerId);
+  joystick.classList.add("is-active");
+  moveJoystick(event);
+});
+joystick.addEventListener("pointermove", (event) => {
+  if (joystickPointer === event.pointerId) moveJoystick(event);
+});
+joystick.addEventListener("pointerup", releaseJoystick);
+joystick.addEventListener("pointercancel", releaseJoystick);
+joystick.addEventListener("lostpointercapture", releaseJoystick);
+rocketButton.addEventListener("click", fireRocket);
 
 for (const button of document.querySelectorAll("[data-control]")) {
   const control = button.dataset.control;
